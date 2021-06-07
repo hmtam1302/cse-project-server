@@ -5,6 +5,13 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 
+//Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//Routes
+const router = require('./routes/User')
+app.use('/users', router);
 //Connect to mongoose
 mongoose
   .connect(process.env.MONGO_URL,
