@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Setting = require("./Settings");
+const Notification = require("./Notifications");
+
 //USER SCHEMA
 const UserSchema = new mongoose.Schema({
   username: {
@@ -38,6 +40,10 @@ const UserSchema = new mongoose.Schema({
     default: null,
   },
   settings: Setting.schema,
+  notifications: {
+    type: [Notification.schema],
+    default: [],
+  },
   avt: {
     type: String,
     default: null,

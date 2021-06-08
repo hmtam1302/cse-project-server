@@ -35,7 +35,7 @@ router.post("/signup", async (req, res) => {
 router.get("/:username", async (req, res) => {
   let response = await User.find(
     { username: req.params.username },
-    "full_name email phone birthday floor role avt settings"
+    "full_name email phone birthday floor role avt settings notifications"
   );
   if (response.length === 0) {
     res.json({ message: "No user found!" });
@@ -73,6 +73,7 @@ router.put("/:username", async (req, res) => {
     role: req.body.role,
     avt: req.body.avt,
     settings: req.body.settings,
+    notifications: req.body.notifications,
   };
 
   User.findOneAndUpdate({ username: req.params.username }, data)
