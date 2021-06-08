@@ -13,21 +13,26 @@ router.post("/signup", async (req, res) => {
   if (response.length > 0) {
     res.json({ message: "Username has been registered!" });
   } else {
-    let user = new User({
-      username: req.body.username,
-      password: bcrypt.hashSync(req.body.password, 10),
-      email: req.body.email,
-      settings: new Setting(),
-    });
+    response = await User.find({ email: req.body.email });
+    if (response.length > 0) {
+      res.json({ message: "Email has been used!" });
+    } else {
+      let user = new User({
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 10),
+        email: req.body.email,
+        settings: new Setting(),
+      });
 
-    user
-      .save()
-      .then((response) => res.json({ message: "Signup success!" }))
-      .catch((err) =>
-        res
-          .status(500)
-          .json({ message: `User was not stored in database\n${err}` })
-      );
+      user
+        .save()
+        .then((response) => res.json({ message: "Signup success!" }))
+        .catch((err) =>
+          res
+            .status(500)
+            .json({ message: `User was not stored in database\n${err}` })
+        );
+    }
   }
 });
 
