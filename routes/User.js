@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
 
     user
       .save()
-      .then((response) => res.json({ message: "Signup successful" }))
+      .then((response) => res.json({ message: "Signup success!" }))
       .catch((err) =>
         res
           .status(500)
