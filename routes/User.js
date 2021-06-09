@@ -68,17 +68,9 @@ router.post("/login/", async (req, res) => {
 });
 
 //PUT: UPDATE USER DATA
-router.put("/:username", async (req, res) => {
+router.put("/:username/:type", async (req, res) => {
   let data = {
-    full_name: req.body.full_name,
-    email: req.body.email,
-    phone: req.body.phone,
-    birthday: req.body.birthday,
-    floor: req.body.floor,
-    role: req.body.role,
-    avt: req.body.avt,
-    settings: req.body.settings,
-    notifications: req.body.notifications,
+    [req.params.type]: req.body.value,
   };
 
   User.findOneAndUpdate({ username: req.params.username }, data)
