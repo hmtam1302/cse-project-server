@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const NotificationSchema = new mongoose.Schema({
   status: String,
   element: String,
-  time: Date,
+  time: String,
 });
 
 module.exports = new mongoose.model("Notification", NotificationSchema);

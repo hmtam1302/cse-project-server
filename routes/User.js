@@ -7,7 +7,7 @@ const Feedback = require("../models/Feedbacks");
 
 //Encrypt password
 const bcrypt = require("bcrypt");
-
+//USER SECTION
 //POST: CREATE A NEW USER
 router.post("/signup", async (req, res) => {
   //QUERY USERNAME
@@ -69,6 +69,18 @@ router.post("/login/", async (req, res) => {
   }
 });
 
+//PUT: UPDATE USER DATA
+router.put("/:username/:type", async (req, res) => {
+  let data = {
+    [req.params.type]: req.body.value,
+  };
+
+  User.findOneAndUpdate({ username: req.params.username }, data)
+    .then(() => res.json({ message: "Update success!" }))
+    .catch((err) => res.json({ message: `Update failed: ${err}` }));
+});
+
+//ADMIN SECTION
 //POST: SEND FEEDBACKS
 router.post("/:username/feedbacks", async (req, res) => {
   let feedback = new Feedback({
@@ -88,15 +100,23 @@ router.post("/:username/feedbacks", async (req, res) => {
     );
 });
 
-//PUT: UPDATE USER DATA
-router.put("/:username/:type", async (req, res) => {
-  let data = {
-    [req.params.type]: req.body.value,
-  };
+//POST: SEND NOTIFICATION
+router.post("/:username/notifications", async (req, res) => {
+  let notification = new Notification({
+    username: req.params.username,
+    status: req.body.status,
+    element: req.body.element,
+    time: req.body.time,
+  });
 
-  User.findOneAndUpdate({ username: req.params.username }, data)
-    .then(() => res.json({ message: "Update success!" }))
-    .catch((err) => res.json({ message: `Update failed: ${err}` }));
+  notification
+    .save()
+    .then((response) => res.json({ message: "Send notification success!" }))
+    .catch((err) =>
+      res
+        .status(500)
+        .json({ message: `Notification  was not store in database\n${err}` })
+    );
 });
 
 module.exports = router;
