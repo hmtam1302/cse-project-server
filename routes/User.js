@@ -125,8 +125,11 @@ router.get("/:username/notifications", async (req, res) => {
     { username: req.params.username },
     "_id status element time"
   );
-
-  return response;
+  if (response.length > 0) {
+    res.json({ notifications: response });
+  } else {
+    res.json({ message: "No notifications found!" });
+  }
 });
 
 //PUT: UPDATE NOTIFICATION
