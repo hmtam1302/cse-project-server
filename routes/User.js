@@ -72,6 +72,7 @@ router.post("/login/", async (req, res) => {
 //POST: SEND FEEDBACKS
 router.post("/:username/feedbacks", async (req, res) => {
   let feedback = new Feedback({
+    username: req.params.username,
     experience: req.body.experience,
     error: req.body.error,
     rating: req.body.rating,
@@ -83,7 +84,7 @@ router.post("/:username/feedbacks", async (req, res) => {
     .catch((err) =>
       res
         .status(500)
-        .json({ message: `Feedback was not store in database\n${err}` })
+        .json({ message: `Feedback  was not store in database\n${err}` })
     );
 });
 
