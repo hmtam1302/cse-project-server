@@ -119,4 +119,14 @@ router.post("/:username/notifications", async (req, res) => {
     );
 });
 
+//GET: NOTIFICATION
+router.get("/:username/notifications", async (req, res) => {
+  let response = await Notification.find(
+    { username: req.params.username },
+    "status element time"
+  );
+
+  return response.json();
+});
+
 module.exports = router;
