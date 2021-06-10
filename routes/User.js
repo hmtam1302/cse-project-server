@@ -135,8 +135,17 @@ router.get("/:username/notifications", async (req, res) => {
 //PUT: UPDATE NOTIFICATION
 router.put("/:username/notifications/:id", async (req, res) => {
   Notification.findByIdAndUpdate(req.params.id, { isRead: true })
-    .then(() => res.json({ message: "Update success!" }))
-    .catch((err) => res.json({ message: `Update failed: ${err}` }));
+    .then(() => res.json({ message: "Update notification success!" }))
+    .catch((err) => res.json({ message: `Update notification failed: ${err}` }));
+});
+
+//DELETE: NOTIFICATION
+router.delete("/:username/notifications/:id", async (req, res) => {
+  Notification.findByIdAndRemove(req.params.id)
+    .then(() => res.json({ message: "Remove notification success!" }))
+    .catch((err) =>
+      res.json({ message: `Cannot delete notification!\n${err}` })
+    );
 });
 
 module.exports = router;
