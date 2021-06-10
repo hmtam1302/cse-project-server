@@ -126,7 +126,7 @@ router.get("/:username/notifications", async (req, res) => {
     "_id status element time"
   );
 
-  return response.json();
+  return response;
 });
 
 //PUT: UPDATE NOTIFICATION
