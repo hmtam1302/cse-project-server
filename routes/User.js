@@ -129,4 +129,15 @@ router.get("/:username/notifications", async (req, res) => {
   return response.json();
 });
 
+//PUT: UPDATE NOTIFICATION
+router.push("/:username/notifications", async (req, res) => {
+  let data = {
+    isRead: true,
+  };
+
+  User.findOneAndUpdate({ _id: req.body.id }, data)
+    .then(() => res.json({ message: "Update success!" }))
+    .catch((err) => res.json({ message: `Update failed: ${err}` }));
+});
+
 module.exports = router;
