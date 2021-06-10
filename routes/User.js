@@ -131,7 +131,7 @@ router.get("/:username/notifications", async (req, res) => {
 
 //PUT: UPDATE NOTIFICATION
 router.put("/:username/notifications/:id", async (req, res) => {
-  User.findByIdAndUpdate(req.params.id, { isRead: true })
+  Notification.findByIdAndUpdate(req.params.id, { isRead: true })
     .then(() => res.json({ message: "Update success!" }))
     .catch((err) => res.json({ message: `Update failed: ${err}` }));
 });
