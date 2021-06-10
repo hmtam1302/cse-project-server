@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Setting = require("./Settings");
 const Notification = require("./Notifications");
+const Feedback = require("./Feedbacks");
 
 //USER SCHEMA
 const UserSchema = new mongoose.Schema({
@@ -47,6 +48,10 @@ const UserSchema = new mongoose.Schema({
   avt: {
     type: String,
     default: null,
+  },
+  feedbacks: {
+    type: [Feedback.schema],
+    default: [],
   },
 });
 

@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/Users");
 const Setting = require("../models/Settings");
+const Notification = require("../models/Notifications");
+const Feedback = require("../models/Feedbacks");
 
 //Encrypt password
 const bcrypt = require("bcrypt");
@@ -65,6 +67,24 @@ router.post("/login/", async (req, res) => {
       res.json({ message: "Wrong password!" });
     }
   }
+});
+
+//POST: SEND FEEDBACKS
+router.post("/:username/feedbacks", async (req, res) => {
+  let feedback = new Feedback({
+    experience: req.body.experience,
+    error: req.body.error,
+    rating: req.body.rating,
+  });
+
+  feedback
+    .save()
+    .then((response) => res.json({ message: "Send feedbacks success!" }))
+    .catch((err) =>
+      res
+        .status(500)
+        .json({ message: `Feedback was not store in database\n${err}` })
+    );
 });
 
 //PUT: UPDATE USER DATA
