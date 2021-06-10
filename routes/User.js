@@ -123,7 +123,7 @@ router.post("/:username/notifications", async (req, res) => {
 router.get("/:username/notifications", async (req, res) => {
   let response = await Notification.find(
     { username: req.params.username },
-    "status element time"
+    "_id status element time"
   );
 
   return response.json();
