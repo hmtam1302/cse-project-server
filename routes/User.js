@@ -24,6 +24,7 @@ router.post("/signup", async (req, res) => {
         password: bcrypt.hashSync(req.body.password, 10),
         email: req.body.email,
         settings: new Setting(),
+        role: "user",
       });
 
       user
@@ -75,7 +76,7 @@ router.put("/:username/:type", async (req, res) => {
     [req.params.type]: req.body.value,
   };
 
-  User.findOneAndUpdate({ username: req.params.username }, data)
+  await User.findOneAndUpdate({ username: req.params.username }, data)
     .then(() => res.json({ message: "Update success!" }))
     .catch((err) => res.json({ message: `Update failed: ${err}` }));
 });
@@ -136,7 +137,9 @@ router.get("/:username/notifications", async (req, res) => {
 router.put("/:username/notifications/:id", async (req, res) => {
   Notification.findByIdAndUpdate(req.params.id, { isRead: true })
     .then(() => res.json({ message: "Update notification success!" }))
-    .catch((err) => res.json({ message: `Update notification failed: ${err}` }));
+    .catch((err) =>
+      res.json({ message: `Update notification failed: ${err}` })
+    );
 });
 
 //DELETE: NOTIFICATION

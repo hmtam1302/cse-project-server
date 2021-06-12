@@ -1,30 +1,32 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-require('dotenv').config();
+require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Routes
-const router = require('./routes/User')
-app.use('/users', router);
+const userRouter = require("./routes/User");
+app.use("/users", userRouter);
+const systemRouter = require("./routes/System");
+app.use("/system", systemRouter);
+
 //Connect to mongoose
 mongoose
-  .connect(process.env.MONGO_URL,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    })
+  .connect(process.env.MONGO_URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  })
   .then(() => {
     console.log("Connected to mongodb atlas");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log("Something wrong happened!", err);
-  })
+  });
 app.listen(PORT, () => {
   console.log("Server started at PORT ", PORT);
 });
