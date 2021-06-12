@@ -81,7 +81,33 @@ router.put("/:username/:type", async (req, res) => {
     .catch((err) => res.json({ message: `Update failed: ${err}` }));
 });
 
-//ADMIN SECTION
+//PUT: UPDATE PASSWORD
+router.put("/changepassword", async (req, res) => {
+  const username = req.body.username;
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+
+  //Check password
+  let response = await User.find({ username: username });
+  //Find user
+  if (response.length === 0) {
+    res.json({ message: "User not found!" });
+  } else {
+    //Check password
+    if (bcrypt.compareSync(oldPassword, response[0].password)) {
+      //Accept change password
+      const hashPassword = bcrypt.hashSync(newPassword, 10);
+      await User.findOneAndUpdate(
+        { username: username },
+        { password: hashPassword }
+      );
+      res.json({ message: "Change password success!" });
+    } else {
+      res.json({ message: "Wrong old password! Try again" });
+    }
+  }
+});
+
 //POST: SEND FEEDBACKS
 router.post("/:username/feedbacks", async (req, res) => {
   let feedback = new Feedback({
