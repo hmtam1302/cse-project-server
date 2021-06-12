@@ -64,9 +64,9 @@ router.put("/changelimit", async (req, res) => {
     res.json({ message: "You have no permission!" });
   } else {
     const data = {
-      temperature: req.params.temperature ? req.params.temperature : 40,
-      noise: req.params.noise ? req.params.noise : 800,
-      gas: req.params.gas ? req.params.gas : 1,
+      temperature: req.body.temperature,
+      noise: req.body.noise,
+      gas: req.body.gas,
     };
     System.findByIdAndUpdate("60c4f50cd5cd0eb1196a8ec9", data)
       .then((response) => res.json({ message: "Update system success!" }))
