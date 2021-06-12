@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/Users");
+const System = require("../models/Systems");
 //Encrypt password
 const bcrypt = require("bcrypt");
 
-//Send email to password
+//POST: Send email to password
 router.post("/forgotpassword", async (req, res) => {
   //Find email if found
   let response = await User.find({ email: req.body.email });
@@ -51,6 +52,32 @@ router.post("/forgotpassword", async (req, res) => {
       }
     });
   }
+});
+
+//PUT: UPDATE SYSTEM LIMITS
+router.put("/changelimit", async (req, res) => {
+  //Check user role
+  let response = await User.find({ username: req.body.username }, "role");
+  if (response.length === 0) {
+    res.json({ message: "User not found!" });
+  } else if (response[0].role !== "admin") {
+    res.json({ message: "You have no permission!" });
+  } else {
+    const data = {
+      temperature: req.params.temperature ? req.params.temperature : 40,
+      noise: req.params.noise ? req.params.noise : 800,
+      gas: req.params.gas ? req.params.gas : 1,
+    };
+    System.findByIdAndUpdate("60c4f50cd5cd0eb1196a8ec9", data)
+      .then((response) => res.json({ message: "Update system success!" }))
+      .catch((err) => res.json({ message: "Update system failed\n" + err }));
+  }
+});
+
+//GET: GET SYSTEM LIMITS
+router.get("/", async (req, res) => {
+  let response = await System.findById("60c4f50cd5cd0eb1196a8ec9");
+  res.json({ system: response });
 });
 
 module.exports = router;
