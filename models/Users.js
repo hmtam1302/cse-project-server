@@ -45,10 +45,6 @@ const UserSchema = new mongoose.Schema({
     type: [Notification.schema],
     default: [],
   },
-  avt: {
-    type: String,
-    default: null,
-  },
 });
 
 module.exports = new mongoose.model("User", UserSchema);
