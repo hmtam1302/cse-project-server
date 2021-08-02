@@ -199,9 +199,9 @@ router.post("/sendmail", async (req, res) => {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      res.json({ message: `Send password failed\n${error}` });
+      res.json({ message: `Send mail notification failed\n${error}` });
     } else {
-      res.json({ message: "Send password success!" });
+      res.json({ message: "Send mail notification success!" });
     }
   });
 });
