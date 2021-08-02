@@ -177,4 +177,33 @@ router.delete("/:username/notifications/:id", async (req, res) => {
     );
 });
 
+//POST: SEND EMAIL NOTIFICATION
+router.post("/sendmail", async (req, res) => {
+  //Send password to email
+  var nodemailer = require("nodemailer");
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "hhharyo28@gmail.com",
+      pass: "Minhtam123",
+    },
+  });
+
+  var mailOptions = {
+    from: "hhharyo28@gmail.com",
+    to: req.body.email,
+    subject: "Notification",
+    text: `Notification:\n${req.body.message}\nThis is an automatic email from system, you can disable in your settings!`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      res.json({ message: `Send password failed\n${error}` });
+    } else {
+      res.json({ message: "Send password success!" });
+    }
+  });
+});
+
 module.exports = router;
