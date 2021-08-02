@@ -6,7 +6,7 @@ const SettingSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  SMS: {
+  email: {
     type: Boolean,
     default: true,
   },
