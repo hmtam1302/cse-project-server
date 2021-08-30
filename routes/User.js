@@ -201,7 +201,7 @@ router.post("/sendmail", async (req, res) => {
     if (error) {
       res.json({ message: `Send mail notification failed\n${error}` });
     } else {
-      res.json({ message: "Send mail notification success!" });
+      res.json({ message: "Send success!" });
     }
   });
 });
